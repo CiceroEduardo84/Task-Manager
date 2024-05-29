@@ -4,11 +4,12 @@ import { Button } from "../Button";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 type InputTypes = {
+  name: string;
   email: string;
   password: string;
 };
 
-export function FormLogin() {
+export function FormSignUp() {
   const navigate = useNavigate();
   const {
     register,
@@ -20,11 +21,26 @@ export function FormLogin() {
   const onSubmit: SubmitHandler<InputTypes> = (data) => {
     console.log(data);
     reset();
+    navigate("/")
   };
   return (
     <Container>
-      <h2>Faça seu login</h2>
+      <h2>Faça seu cadastro</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
+        <section>
+          <label>
+            Name:
+            <input
+              type="text"
+              placeholder="Digite seu nome..."
+              {...register("name", {
+                required: "Campo Obrigatorio!",
+              })}
+            />
+          </label>
+          <span className="inputError">{errors.name?.message}</span>
+        </section>
+
         <section>
           <label>
             Email:
@@ -49,17 +65,29 @@ export function FormLogin() {
             <input
               type="password"
               placeholder="Digite sua senha..."
-              {...register("password", { required: "Campo Obrigatorio!" })}
+              {...register("password", {
+                required: "Campo Obrigatorio!",
+                minLength: {
+                  value: 7,
+                  message: "A senha deve ter no mínimo 7 dígitos",
+                },
+                pattern: {
+                  value:
+                    /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}|:"<>?,./\\[\]-]).+$/,
+                  message:
+                    "A senha deve ter número, letra maiúscula e caractere especial",
+                },
+              })}
             />
           </label>
           <span className="inputError">{errors.password?.message}</span>
         </section>
-        <Button title="Login" loading={false} />
+        <Button title="Finalizar" loading={false} variant="secondary" />
       </form>
 
-      <span className="messageChangePage">Não tem uma conta? </span>
-      <button className="buttonChangePage" onClick={() => navigate("/signup")}>
-        Resgistre-se
+      <span className="messageChangePage">Já tem uma conta? </span>
+      <button className="buttonChangePage" onClick={() => navigate("/")}>
+        Login
       </button>
     </Container>
   );
