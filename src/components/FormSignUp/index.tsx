@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { Container } from "./styles";
 import { Button } from "../Button";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useAuth } from "../../hooks/useAuth";
 
 type InputTypes = {
   name: string;
@@ -18,11 +19,17 @@ export function FormSignUp() {
     reset,
   } = useForm<InputTypes>();
 
-  const onSubmit: SubmitHandler<InputTypes> = (data) => {
-    console.log(data);
-    reset();
-    navigate("/")
+  const { signUp, isLoading } = useAuth();
+
+  const onSubmit: SubmitHandler<InputTypes> = async ({ name, email, password }) => {
+    const userCreated = await signUp({ name, email, password });
+
+    if (userCreated) {
+      reset();
+      navigate("/");
+    }
   };
+
   return (
     <Container>
       <h2>Faça seu cadastro</h2>
@@ -82,7 +89,7 @@ export function FormSignUp() {
           </label>
           <span className="inputError">{errors.password?.message}</span>
         </section>
-        <Button title="Finalizar" loading={false} variant="secondary" />
+        <Button title="Finalizar" loading={isLoading} variant="secondary" />
       </form>
 
       <span className="messageChangePage">Já tem uma conta? </span>
