@@ -1,6 +1,12 @@
-import { RouterProvider } from "react-router-dom";
-import { authRouter } from "./auth.routes";
+import { BrowserRouter } from "react-router-dom";
+import { AppRouter } from "./app.routes";
+import { AuthRouter } from "./auth.routes";
+import { useAuth } from "../hooks/useAuth";
 
 export function AppRoutes() {
-  return <RouterProvider router={authRouter} />;
+  const { authUserID } = useAuth();
+  const isAuth = !!authUserID; // type conversion
+  const routes = isAuth ? <AppRouter /> : <AuthRouter />; // type coersion
+  
+  return <BrowserRouter>{routes}</BrowserRouter>;
 }

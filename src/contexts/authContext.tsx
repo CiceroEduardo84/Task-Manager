@@ -1,4 +1,4 @@
-import { PropsWithChildren, createContext, useState } from "react";
+import { PropsWithChildren, createContext, useEffect, useState } from "react";
 import { API } from "../configs/api";
 
 export type SignInTypes = {
@@ -16,6 +16,7 @@ type AuthContextTypes = {
   signIn: (params: SignInTypes) => Promise<boolean | void>;
   signUp: (params: SignUpTypes) => Promise<boolean | void>;
   signOut: () => void;
+  authUserID: string;
   isLoading: boolean;
 };
 
@@ -23,6 +24,7 @@ export const AuthContext = createContext({} as AuthContextTypes);
 
 export function AuthProvider({ children }: PropsWithChildren) {
   const [isLoading, setIsLoading] = useState(false);
+  const [authUserID, setAuthUserID] = useState("");
 
   async function signIn({ email, password }: SignInTypes) {
     if (!email || !password) {
@@ -32,9 +34,11 @@ export function AuthProvider({ children }: PropsWithChildren) {
     setIsLoading(true);
 
     return API.post("/login", { email, password })
-      .then((response) => {
-        const userID = { userID: response.data.id };
-        localStorage.setItem("@task_manager:user", JSON.stringify(userID));
+      .then((res) => {
+        const userID = res.data.id;
+
+        setAuthUserID(userID);
+        localStorage.setItem("@task_manager:userID", JSON.stringify(userID));
 
         return true;
       })
@@ -80,12 +84,23 @@ export function AuthProvider({ children }: PropsWithChildren) {
   }
 
   function signOut() {
-    localStorage.removeItem("@task_manager:user");
-    //remove cookie
+    localStorage.removeItem("@task_manager:userID");
+    setAuthUserID("");
   }
 
+  useEffect(() => {
+    const userID = localStorage.getItem("@task_manager:userID");
+
+    if (userID) {
+      //get user in api
+      setAuthUserID(userID);
+    }
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ signIn, isLoading, signUp, signOut }}>
+    <AuthContext.Provider
+      value={{ signIn, signUp, signOut, isLoading, authUserID }}
+    >
       {children}
     </AuthContext.Provider>
   );
