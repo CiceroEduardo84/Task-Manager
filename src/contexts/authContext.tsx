@@ -86,14 +86,25 @@ export function AuthProvider({ children }: PropsWithChildren) {
   function signOut() {
     localStorage.removeItem("@task_manager:userID");
     setAuthUserID("");
+    API.post("/logout").catch((error) => {
+      console.log(error);
+    });
   }
 
   useEffect(() => {
     const userID = localStorage.getItem("@task_manager:userID");
 
     if (userID) {
-      //get user in api
-      setAuthUserID(userID);
+      const id = JSON.parse(userID);
+
+      API.get("/user")
+        .then((res) => {
+          if (id == res.data.id) setAuthUserID(userID);
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response?.status == 401) signOut();
+        });
     }
   }, []);
 
