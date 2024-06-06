@@ -1,12 +1,23 @@
-import { useAuth } from "../../hooks/useAuth";
+import { SideBar } from "../../components/SideBar";
+import { Header } from "../../components/Header";
 import { Container } from "./styles";
+import { Outlet } from "react-router-dom";
+import { Footer } from "../../components/Footer";
 
 export function App() {
-  const { signOut } = useAuth();
   return (
     <Container>
-      <h1>App</h1>
-      <button onClick={signOut}>Sair</button>
+      <Header />
+
+      <article>
+        <section className="sideBar">
+          <SideBar />
+        </section>
+        
+        <Outlet /> {/*Main*/}
+      </article>
+
+      <Footer />
     </Container>
   );
 }
