@@ -13,7 +13,7 @@ export function useQueryTasks() {
 
   async function getTasks({ page = 1, limit = 10, filter = "all" }) {
     if (page <= 0) page = 1;
-    const offset = limit * page - 1;
+    const offset = limit * (page - 1);
 
     await changeTotalPages(filter, limit);
 
@@ -41,7 +41,6 @@ export function useQueryTasks() {
       case "late":
         total = data.tasksInfo.late;
         break;
-
       default:
         total = data.tasksInfo.total;
         break;
