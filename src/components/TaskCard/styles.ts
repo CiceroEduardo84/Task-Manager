@@ -7,9 +7,10 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  transition: 100ms;
 
   &:hover {
-    filter: brightness(1.1);
+    filter: brightness(1.2);
     cursor: pointer;
   }
 
@@ -56,14 +57,9 @@ export const Container = styled.div`
     text-align: right;
   }
 
-  .deleteIcon {
-    font-size: 2.4rem;
-    cursor: pointer;
-  }
-
   @media (min-width: 768px) {
     width: calc(${({ theme }) => theme.size.MAIN_WIDTH_DESKTOP} + 5vw);
-    padding: 2.5rem;
+    padding: 2.4rem;
 
     .status {
       font-size: 0.8rem;
@@ -82,11 +78,6 @@ export const Container = styled.div`
     }
     span {
       font-size: 1.6rem;
-    }
-
-    .deleteIcon {
-      font-size: 2.4rem;
-      cursor: pointer;
     }
   }
 `;

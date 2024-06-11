@@ -27,8 +27,9 @@ export function TaskCard({ data, onClick }: TaskCardProps) {
       <div className="taskDetails">
         <strong>{title}</strong>
         <p>{description}</p>
-        <span>{new Date(date).toLocaleString()}</span>
       </div>
+
+      <span>{new Date(date).toLocaleString()}</span>
     </Container>
   );
 }
