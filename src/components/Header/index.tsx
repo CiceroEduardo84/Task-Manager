@@ -6,7 +6,7 @@ import { useState } from "react";
 
 export function Header() {
   const [showSideBar, setShowSideBar] = useState(false);
-  
+
   function toggleSideBar() {
     setShowSideBar((prevState) => (prevState == true ? false : true));
   }
@@ -20,7 +20,10 @@ export function Header() {
       <div className="appLogo">
         <h1>Task Manager</h1>
 
-        <Link to="">
+        <Link
+          to={"https://emanuelquintino.github.io/Page-WDC/"}
+          target="_blank"
+        >
           <img src={logo} alt="" />
         </Link>
       </div>

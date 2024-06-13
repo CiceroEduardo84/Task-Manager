@@ -2,8 +2,8 @@ import { Container } from "./styles";
 
 export function About() {
   return (
-    <Container className="scrollBar">
-      <article>
+    <Container>
+      <article id="aboutContainer">
         <section>
           <h2>Sobre a Task Manager do Reprograma Jucás</h2>
           <p>

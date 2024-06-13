@@ -14,7 +14,7 @@ export const Container = styled.div`
     -ms-overflow-style: none;
   }
 
-  article {
+  #aboutContainer {
     background: none;
   }
 
