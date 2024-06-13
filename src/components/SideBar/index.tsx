@@ -20,6 +20,12 @@ export function SideBar({ toogleSideBar }: SideBarTypes) {
     }
   }
 
+  function handleKeyUp(event: React.KeyboardEvent<HTMLDivElement>){
+    if (event.key == "Enter") {
+      logOutApp();
+    }
+  }
+  
   return (
     <Container onClick={toogleSideBar}>
       <div className="asideMenu" onClick={toogleSideBar}>
@@ -45,7 +51,7 @@ export function SideBar({ toogleSideBar }: SideBarTypes) {
               <MenuItem title="Sobre" icon="info" />
             </NavLink>
 
-            <div onClick={logOutApp}>
+            <div onClick={logOutApp} tabIndex={0} onKeyUp={handleKeyUp}>
               <MenuItem title="Sair" icon="exit_to_app" />
             </div>
           </ul>
