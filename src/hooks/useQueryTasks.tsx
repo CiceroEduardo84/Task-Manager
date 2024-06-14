@@ -106,6 +106,7 @@ export function useQueryTasks() {
   const query = useQuery({
     queryKey: ["tasksData", page, limit, filter],
     queryFn: () => getTasks({ page, limit, filter }),
+    refetchInterval: 1000 * 5,
   });
 
   return {
